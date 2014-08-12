@@ -1,13 +1,14 @@
 #! /bin/bash
 #Calculate #Cores in a Linux machine and set IRQ affinity for all possible interrupts to the last core
+
 #Calculate # Sockets
 NUM_SOCKETS=$((`cat /proc/cpuinfo | grep "physical id" | sort | uniq | wc -l`))
 
-#Calculate # Cores
-NUM_CORES_PER_SOCKET=$((`cat /proc/cpuinfo | egrep "core id|physical id" | tr -d "\n" | sed s/physical/\\nphysical/g | grep -v ^$ | sort | uniq | wc -l`))
-
 #Calculate total # Cores
 NUM_CORES=$((`cat /proc/cpuinfo | grep processor | tail -1 | awk '{print $3}'`+1))
+
+#Deduce #Cores per Socket and Last_core_mask
+NUM_CORES_PER_SOCKET=$(($NUM_CORES/$NUM_SOCKETS))
 LAST_CORE_MASK=$((1<<(NUM_CORES-1)))
 
 echo NUM_SOCKETS:$NUM_SOCKETS NUM_CORES_PER_SOCKET:$NUM_CORES_PER_SOCKET
