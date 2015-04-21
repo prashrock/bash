@@ -26,4 +26,7 @@ function windows_to_linux_script_convert()
     chmod 755 $1
     echo "Done.",
 }
+export -f windows_to_linux_script_convert
+#Below example shows how to use the above function for multiple files
+#find <path> -name *.sh -type f -print0 | xargs -0 -n1 -I{} bash -c "windows_to_linux_script_convert {}"
 #----------------------------------------------------------------------------------------------------------------------
