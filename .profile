@@ -17,7 +17,7 @@ function windows_to_linux_script_convert()
       echo "Error: usage - windows_to_linux_script_convert <file_name_with_path>";
       return; 
     fi
-    if [ -e "$1" ];  then
+    if [ ! -e "$1" ];  then
       echo "Error: '$1' is not a valid file.";
       return; 
     fi
@@ -28,5 +28,5 @@ function windows_to_linux_script_convert()
 }
 export -f windows_to_linux_script_convert
 #Below example shows how to use the above function for multiple files
-#find <path> -name *.sh -type f -print0 | xargs -0 -n1 -I{} bash -c "windows_to_linux_script_convert {}"
+#find <path> -name "*.sh" -type f -print0 | xargs -0 -n1 -I{} bash -c "windows_to_linux_script_convert {}"
 #----------------------------------------------------------------------------------------------------------------------
