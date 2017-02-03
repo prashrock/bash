@@ -1,0 +1,53 @@
+#First window to host Emacs
+chdir $DEVDIR
+screen -t "Emacs"    emacs -nw .
+
+#Second window to host DEVDIR for looking at code
+chdir $DEVDIR
+screen -t "DEVDIR"   #can run some script here if required
+
+#Third window to host Debug directory for debugging
+chdir $ZH
+screen -t "ZH"       #can run some script here if required
+
+#Use below commands to split and change focus
+#split
+#focus up, focus down
+#vert_split
+
+defscrollback = 10000
+altscreen on
+term screen-256color
+bind ',' prev
+bind '.' next
+
+## Instead of using Ctrl-a as default screen key, use Ctrl+bn
+escape ^Oo
+
+## do not trash BackSpace, usually DEL
+bindkey -k kb
+bindkey -d -k kb
+#
+## do not trash Delete, usually ESC [ 3 ~
+bindkey -k kD
+bindkey -d -k kD
+
+# Change the xterm initialization string to avoid window size change
+termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+#Statusbar
+hardstatus alwayslastline "%{= KW} Screen(s): %-w%{= wk} %50>%n %t%{-}%+w%< %=%{KW}[%c %M %d %Y ]"
+
+# Use a 5000-line scrollback buffer
+defscrollback 5000
+
+
+# Activity flash bar
+activity "activity in %n (%t) [%w:%s]~"
+
+#
+#change the hardstatus settings to give an window list at the bottom of the
+#screen, with the time and date and with the current window highlighted
+hardstatus alwayslastline
+#hardstatus string '%{= kG}%-Lw%{= kW}%50> %n%f* %t%{= kG}%+Lw%< %{= kG}%-=%c:%s%{-}'
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
