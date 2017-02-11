@@ -19,6 +19,7 @@ Scripts
 Configuration
 ====
 - Below is a list of configuration files:
+
   | Config File       | Description                                                                           |
   |:------------------|:--------------------------------------------------------------------------------------|
   | [emacs](./.emacs) | My emacs configuration                                                               |
