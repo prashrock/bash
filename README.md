@@ -16,3 +16,14 @@ Scripts
   | [misc_tasks.sh](./misc_tasks.sh)                           | 1) Assert if given key is present in the file. <br> 2) Block and Kill a running process and cleanup error logs <br> 3) Block and monitor a log file for a particular line to get logged (waiting for init) <br>  4) Set desired runtime properties -- pinning cores, change ARP and other Linux network timeouts, grep Error log for any warnings/errors <br> 5) SCP a file from one machine to another with prompting for password |
   
 ----------------------------------------------------------------------------------------
+Configuration
+====
+- Below is a list of configuration files:
+  | Config File       | Description                                                                           |
+  |:------------------|:--------------------------------------------------------------------------------------|
+  | [emacs](./.emacs) | My emacs configuration                                                               |
+  | [profile](./.profile) | My BASH SHELL configuration                                                      |
+  | [screenrc](./.screenrc) | My SCREEN configuration                                                        |
+  | [RSS Feeder](./Feeder.opml) | My RSS Feeder configuration                                                |
+
+----------------------------------------------------------------------------------------
