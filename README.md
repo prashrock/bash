@@ -25,6 +25,7 @@ Configuration
   | [emacs](./.emacs) | My emacs configuration                                                               |
   | [profile](./.profile) | My BASH SHELL configuration                                                      |
   | [screenrc](./.screenrc) | My SCREEN configuration                                                        |
+  | [TMUX conf](./.tmux.conf) | My TMUX configuration                                                        |
   | [RSS Feeder](./Feeder.opml) | My RSS Feeder configuration                                                |
 
 ----------------------------------------------------------------------------------------
