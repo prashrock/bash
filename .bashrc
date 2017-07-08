@@ -43,6 +43,6 @@ export PS1='${debian_chroot:+($debian_chroot)}[\[\033[01;32m\]\u@\h\[\033[00m\] 
 #With this less file.zip will show contents of zip in paginated less reader
 export LESSOPEN="|/usr/bin/lesspipe.sh %s"
 
-#Use Fuzzy bash history extension
+#Use Fuzzy bash history extension (https://github.com/junegunn/fzf)
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #---------------------------------------------------------------------------------------------------------------------
