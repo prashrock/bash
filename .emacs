@@ -1,7 +1,39 @@
 ;; ===== ELPA packages    =====
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			 ("marmalade" . "https://marmalade-repo.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")))
+			 ("melpa stable" . "https://stable.melpa.org/packages/")))
+;; 			 ("marmalade" . "https://marmalade-repo.org/packages/")
+;; M-x package-install smartparens
+;; M-x package-install flycheck
+
+;; ===== Useful keys =====
+;; Use Alt key as meta
+(setq x-alt-keysym 'meta)
+;; Switch to visible bell instead of audio bell
+(setq-default visible-bell t)
+(setq-default bell-inhibit-time 10)
+;; See trailing whitespace
+(setq-default show-trailing-whitespace t)
+;; automatic highlighting of opening/closing paren
+(show-paren-mode t)
+(setq show-paren-style 'mixed)
+;; enable smartparens
+(require 'smartparens-config)
+(show-smartparens-global-mode +1)
+(smartparens-global-mode 1)
+;; misc
+(global-auto-revert-mode t)
+
+;; ===== Enable max colors !! =====
+(setq font-lock-maximum-decoration t)
+
+;; ===== Enable Linum-Mode and add space after the number  =====
+(global-linum-mode t)
+(setq linum-format "%d ")
+
+;; ====== Clang format a selected region ======
+;; https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format.el
+;; (load "/usr/local/share/clang/clang-format.el")
+(global-set-key [C-M-tab] 'clang-format-region)
 
 ;; ===== Multiple-cursors =====
 (require 'cl-lib)
@@ -24,17 +56,19 @@
 ;; ===== Enable Semantic Mode =====
 (require 'cc-mode)
 (require 'semantic)
-
 (global-semanticdb-minor-mode 1)
 (global-semantic-idle-scheduler-mode 1)
 (semantic-add-system-include "/usr/include/linux/kernel")
-
 (semantic-mode 1)
+;; C/C++ (from https://truongtx.me/2013/03/10/emacs-setting-up-perfect-environment-for-cc-programming)
+(define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+
 
 ;; ===== Build related config/functions ===== 
 (add-hook 'c-mode-common-hook '(lambda ()
       (setq c-recognize-knr-p nil)
-      (setq c-basic-offset 3)
+      (setq c-basic-offset 2)
+      (setq js-indent-level 2)
       (setq indent-tabs-mode nil)
       (c-set-offset 'arglist-intro '+)
       (local-set-key (kbd "RET") 'newline-and-indent)
@@ -109,6 +143,25 @@
 ;; ========== Enable Line and Column Numbering ==========
 (line-number-mode 1)
 (column-number-mode 1)
+;; Enable highlighting of selected regions
+(transient-mark-mode 1)
+;; Function definitions
+(defun indent-all ()
+     "Indent entire buffer."
+     (interactive)
+     (indent-region (point-min) (point-max) nil))
+;; Python Mode for .pillar file
+(setq auto-mode-alist (append '(("\\.pillar$" . python-mode))
+                               auto-mode-alist))
+;; Lisp mode for anything that ends in .emacs
+(setq auto-mode-alist (append '(("\\.emacs$" . lisp-mode))
+                               auto-mode-alist))
+;; Colorings
+(set-foreground-color "#dbdbdb")
+(set-background-color "#000000")
+(custom-set-faces
+ '(font-lock-comment-face ((t (:foreground "cyan"))))
+)
 
 ;; ========== Don't use GNU style indenting for braces ====
 ;;(setq c-default-style "linux"
@@ -145,7 +198,8 @@
 (global-set-key [f5] "\C-u\M-,")
 
 ;; ===== Use F6 to Goto Line Number ===== 
-(global-set-key [f6] 'goto-line)
+(global-set-key "\M-g"  'goto-line)
+(global-set-key "\C-q"  'undo)
 
 ;; ===== Use F7 and F8 to Find Definition of a tag after TAGS is loaded ===== 
 (global-set-key [f7] 'find-tag)
@@ -159,8 +213,32 @@
 (global-set-key (kbd "C-x <down>") 'windmove-down)
 (global-set-key (kbd "C-x <right>") 'windmove-right)
 (global-set-key (kbd "C-x <left>") 'windmove-left)
+;; Set ctrl-arrow keys to move words/pages
+(global-set-key "\M-[C" 'forward-word)
+(global-set-key "\M-[D" 'backward-word)
+(global-set-key "\M-[B" 'scroll-up)
+(global-set-key "\M-[A" 'scroll-down)
+(global-set-key "\M-[5C" 'forward-word)
+(global-set-key "\M-[5D" 'backward-word)
 
 
 (put 'erase-buffer 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+;;ARC LINT as you type
+(require 'flycheck)
+(flycheck-define-checker arc-lint
+   "Arc lint"
+   :command ("arc" "lint"
+             "--output" "compiler"
+             source)
+   :standard-input nil
+   :error-patterns ((error line-start (file-name) ":" line ":" (message)))
+   ;; TODO: you should adjust modes here to suit
+   :modes (c++-mode))
+ (add-to-list 'flycheck-checkers 'arc-lint)
+;; make flycheck visible in the terminal
+(set-face-attribute 'flycheck-info nil :foreground "yellow" :background "red")
+(set-face-attribute 'flycheck-warning nil :foreground "yellow" :background "red")
+(set-face-attribute 'flycheck-error nil :foreground "yellow" :background "red")
