@@ -16,7 +16,7 @@ if [ -f ~/.bash_functions ]; then
 fi
 #---------------------------------------------------------------------------------------------------------------------
 #No duplicates + no empty space starting cmds in Bash History
-export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth:erasedups
 #Increase bash history size to be 130K and unlimited file size !
 HISTSIZE=130000
 HISTFILESIZE=-1
