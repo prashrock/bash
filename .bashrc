@@ -25,7 +25,7 @@ export HISTTIMEFORMAT="[%F %T] " # datestamp format
 #Remember bash history across sessions
 #(http://briancarper.net/blog/248.html)
 shopt -s histappend
-export PROMPT_COMMAND="history -a; history -n; history -r;"
+export PROMPT_COMMAND="history -a; history -n"
 
 #Use VI key bindings
 #set -o vi
