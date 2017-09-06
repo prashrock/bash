@@ -20,11 +20,12 @@ export HISTCONTROL=ignoreboth:erasedups
 #Increase bash history size to be 130K and unlimited file size !
 HISTSIZE=130000
 HISTFILESIZE=-1
+export HISTTIMEFORMAT="[%F %T] " # datestamp format
 
 #Remember bash history across sessions
 #(http://briancarper.net/blog/248.html)
 shopt -s histappend
-export PROMPT_COMMAND="history -a; history -n"
+export PROMPT_COMMAND="history -a; history -n; history -r;"
 
 #Use VI key bindings
 #set -o vi
