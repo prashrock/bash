@@ -5,6 +5,22 @@
 function add_path()     { export PATH="$PATH:$1"; }
 function add_pre_path() { export PATH="$1:$PATH"; }
 #-------------------------------------------------
+#Grep history
+hgrep(){
+    [ -z "$1" ] && echo "Syntax: ${FUNCNAME[0]} <PATTERN> [<PATTERN>...]" 1>&2 && return 1;
+
+    local colorCount=31
+    local grepper="history | GREP_COLOR='1;$colorCount' grep --color=always '$1'";
+
+    while shift; do
+	colorCount=$((colorCount+1))
+        [ -z "$1" ] && continue;
+        grepper="$grepper | GREP_COLOR='1;$colorCount' grep --color=always '$1'";
+    done;
+
+    eval "$grepper"
+}
+#-------------------------------------------------
 #Change directory and do ls -a
 function cl(){ cd "$@" && la; }
 #-------------------------------------------------
