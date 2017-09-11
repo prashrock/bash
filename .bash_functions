@@ -21,6 +21,26 @@ hgrep(){
     eval "$grepper"
 }
 #-------------------------------------------------
+#Find out how long a process is running
+#example: ps_pid_age $(pgrep python)
+#-------------------------------------------------
+ps_pid_age(){
+    [ -z "$1" ] && echo "Syntax: ${FUNCNAME[0]} <PID>" 1>&2 && return 1;
+
+    btime=$(cat /proc/stat|grep '^btime ' | cut -d ' ' -f 2)
+    stime=$(($(cat "/proc/$1/stat" | cut -d ' ' -f 22)/$(getconf CLK_TCK)))
+    proc_stime=$(($stime+$btime))
+
+    proc_uptime=$(($(date +%s)-$proc_stime))
+    d=$(($proc_uptime/(3600*24)))
+    h=$(($proc_uptime%(3600*24)/3600))
+    m=$(($proc_uptime%3600/60))
+    s=$(($proc_uptime%60))
+
+    cmdline=$(cat "/proc/$1/cmdline" | tr '\0' ' ')
+    echo "${cmdline%%\ } has been running $d days $h hours $m minutes and $s seconds"
+}
+#-------------------------------------------------
 #Change directory and do ls -a
 function cl(){ cd "$@" && la; }
 #-------------------------------------------------
