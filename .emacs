@@ -6,6 +6,12 @@
 ;; M-x package-install flycheck
 
 ;; ===== Useful keys =====
+;; Support inserting timestamps
+(defun insert-timestamp ()
+  "timestamp insertion function."
+  (interactive)
+  (insert (format-time-string "%Y%m%d-%H%M%S: ")))
+(global-set-key (kbd "M-t") 'insert-timestamp)
 ;; Use Alt key as meta
 (setq x-alt-keysym 'meta)
 ;; Switch to visible bell instead of audio bell
